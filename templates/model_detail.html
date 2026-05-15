@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ verbose_name }}{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a> |
+        <a href="{% url 'model_create' model_name=model_name %}">Создать новую запись</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ verbose_name }}</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="search-container">
+        <form method="get" class="search-form-inline-centered">
+            <input type="text" name="search" value="{{ search_query }}" placeholder="Поиск...">
+            <input type="hidden" name="sort" value="{{ current_sort }}">
+            <button type="submit" class="btn-find-style">Найти</button>
+            {% if search_query %}
+                <a href="{% url 'model_detail' model_name=model_name %}{% if current_sort %}?sort={{ current_sort }}{% endif %}" class="btn-clear">Очистить</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="sort-links-inline">
+        <span>Сортировать по:</span>
+        {% for field in sortable_fields %}
+            <a href="?{% if search_query %}search={{ search_query|urlencode }}&{% endif %}sort={{ field.name }}{% if current_sort == field.name %}&sort=-{{ field.name }}{% endif %}">
+                {{ field.verbose_name }}
+                {% if current_sort == field.name %} ▼{% elif current_sort == '-'|add:field.name %} ▲{% endif %}
+            </a>
+        {% endfor %}
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background-color: #1e1e1e; color: #ffeb3b;">
+                {% for field_name, field_value in objects_with_fields.0.fields.items %}
+                    {% if field_name != 'ID' %}
+                        <th style="border: 1px solid #444; padding: 8px;">{{ field_name }}</th>
+                    {% endif %}
+                {% endfor %}
+                <th style="border: 1px solid #444; padding: 8px;">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in objects_with_fields %}
+                <tr style="background-color: #1e1e1e;">
+                    {% for field_name, field_value in item.fields.items %}
+                        {% if field_name != 'ID' %}
+                            <td style="border: 1px solid #444; padding: 8px;">{{ field_value }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td style="border: 1px solid #444; padding: 8px; text-align: center;">
+                        <a href="{% url 'model_view' model_name=model_name pk=item.obj.pk %}" class="btn-find-style">Просмотр</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px; text-align: center;" colspan="{{ objects_with_fields.0.fields|length }}">Нет записей.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

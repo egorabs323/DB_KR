@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} {{ verbose_name }}{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'model_detail' model_name=model_name %}">Назад к списку</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ action }} {{ verbose_name }}</h1>
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger non-field-errors">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {% comment %}
+        Вместо {{ form.as_p }}, отображаем поля вручную
+        {% endcomment %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+
+                {% if field.errors %}
+                    <div class="error-message">
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if field.help_text %}
+                    <div class="helptext">{{ field.help_text }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="form-buttons">
+            <button type="submit">Сохранить</button>
+            <a href="{% url 'model_detail' model_name=model_name %}" class="btn-back">Назад</a>
+            {% if action == "Редактировать" %}
+                <a href="{% url 'model_delete' model_name=model_name pk=object_pk %}" class="btn-delete">Удалить</a>
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

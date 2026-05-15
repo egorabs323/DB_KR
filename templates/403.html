@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ошибка доступа{% endblock %}
+
+{% block content %}
+    <div class="error-container-centered">
+        <h1>Ошибка 403</h1>
+        <img src="{% static 'images/403.jpeg' %}" alt="Ошибка доступа" class="error-image">
+        <p>У вас нет прав для доступа к странице.</p>
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a>
+    </div>
+{% endblock %}

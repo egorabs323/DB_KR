@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Результат Аналитики{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'analytics_select' %}">Назад к выбору</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-3 mb-4">{{ chart_type_display }}</h2>
+
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% elif chart_images %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>
+                    {{ title }}
+                    {% if filter_date_from or filter_date_to %}
+                        (в периоде {{ filter_date_from|default:"" }} - {{ filter_date_to|default:"" }})
+                    {% else %}
+                        (все время)
+                    {% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <img src="data:image/png;base64,{{ chart_images.bar }}"
+                             class="img-fluid"
+                             alt="Столбчатая диаграмма {{ title }}"
+                             style="max-height: 400px; object-fit: contain;">
+                    </div>
+                    <div class="col-md-6">
+                        <img src="data:image/png;base64,{{ chart_images.line }}"
+                             class="img-fluid"
+                             alt="Линейная диаграмма {{ title }}"
+                             style="max-height: 400px; object-fit: contain;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <img src="data:image/png;base64,{{ chart_images.pie }}"
+                             class="img-fluid"
+                             alt="Круговая диаграмма {{ title }}"
+                             style="max-height: 400px; object-fit: contain;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Нет данных для отображения.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

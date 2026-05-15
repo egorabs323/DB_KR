@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}О программе{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a> |
+        <a href="{% url 'help_index' %}">Вернуться к справке</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>О программе</h1>
+    <div class="about-content">
+        <p><strong>Тема курсовой работы:</strong> Разработка фрагмента информационной системы строительной организации</p>
+        <p><strong>Описание:</strong> Приложение позволяет управлять таблицами, выполнять SQL-запросы, генерировать PDF-отчёты, настраивать интерфейс и смотреть аналитику.</p>
+        <p><strong>Выполнил:</strong> Олейник Егор Викторович</p>
+        <p><strong>Группа:</strong> АП-326</p>
+        <p><strong>Проверил:</strong> Ассистент АСУ Антонянц Егор Николаевич</p>
+    </div>
+{% endblock %}

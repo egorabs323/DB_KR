@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Справка{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Справка</h1>
+
+    <ul class="help-topic-list">
+        <li class="help-topic-item">
+            <a href="{% url 'help_contents' %}" class="help-topic-link">Руководство пользователя</a>
+        </li>
+        <li class="help-topic-item">
+            <a href="{% url 'about' %}" class="help-topic-link">О программе</a>
+        </li>
+    </ul>
+{% endblock %}

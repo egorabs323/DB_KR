@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ verbose_name }} - Детали{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'model_detail' model_name=model_name %}">Назад к списку</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ verbose_name }}: {{ object }}</h1>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background-color: #1e1e1e; color: #ffeb3b;">
+                <th style="border: 1px solid #444; padding: 8px;">Поле</th>
+                <th style="border: 1px solid #444; padding: 8px;">Значение</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for field in fields %}
+                <tr style="background-color: #1e1e1e;">
+                    <td style="border: 1px solid #444; padding: 8px;"><strong>{{ field.verbose_name }}</strong></td>
+                    <td style="border: 1px solid #444; padding: 8px;">{{ field.value }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px; text-align: center;" colspan="2">Нет данных для отображения.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if perms|add:model_name|add:".change_"|add:model_name %}
+        <div class="form-buttons" style="margin-top: 20px;">
+            <a href="{% url 'model_edit' model_name=model_name pk=object.pk %}" class="btn-find-style">Редактировать</a>
+            <a href="{% url 'model_delete' model_name=model_name pk=object.pk %}" class="btn-delete">Удалить</a>
+        </div>
+    {% endif %}
+{% endblock %}

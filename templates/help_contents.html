@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Справка{% endblock %}
+{% block nav_top_left %}
+     <div class="nav-top-left">
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a> |
+        <a href="{% url 'help_index' %}">Вернуться к справке</a>
+    </div>
+{% endblock %}
+{% block content %}
+    <h1>Справка</h1>
+    <p>Для просмотра руководства пользователя перейдите по ссылке:</p>
+    <a href="https://github.com/egorabs323/User-s-guide/blob/main/README%20.pdf" class="help-topic-link" target="_blank">Документация на GitHub</a>
+{% endblock %}

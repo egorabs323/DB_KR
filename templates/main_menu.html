@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Меню{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="welcome-message">
+            <p>Вы вошли как ({{ user.username }})</p>
+        </div>
+    {% endif %}
+
+    <div class="menu-container">
+        <h1>Меню</h1>
+
+        <ul class="main-menu-list">
+            <li class="main-menu-item">
+                <a href="{% url 'model_list' %}" class="main-menu-link">Просмотр таблиц</a>
+            </li>
+            <li class="main-menu-item">
+                <a href="{% url 'reference_list' %}" class="main-menu-link">Справочники</a>
+            </li>
+            <li class="main-menu-item">
+                <a href="{% url 'analytics_select' %}" class="main-menu-link">Аналитика</a>
+            </li>
+            <li class="main-menu-item">
+                <a href="{% url 'manual_query' %}" class="main-menu-link">Документы</a>
+            </li>
+            <li class="main-menu-item">
+                <a href="{% url 'help_index' %}" class="main-menu-link">Справка</a>
+            </li>
+            <li class="main-menu-item">
+                <a href="{% url 'miscellaneous_menu' %}" class="main-menu-link">Разное</a>
+            </li>
+            <li class="main-menu-item">
+                <a href="{% url 'logout' %}">Выйти</a>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}

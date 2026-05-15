@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Подтвердите удаление{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'model_detail' model_name=model_name %}">Назад к списку</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Подтвердите удаление</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <p>Вы уверены, что хотите удалить {{ verbose_name }} "{{ object }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-delete">Да, удалить</button>
+        <a href="{% url 'model_detail' model_name=model_name %}" class="btn-back">Отмена</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Ручной SQL запрос{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Ручной SQL запрос</h1>
+
+    <div class="preset-queries-container">
+        <form method="get" style="display:inline;">
+            <input type="hidden" name="preset_query_id" value="emp_count_by_dept">
+            <button type="submit" class="btn-find-style">Количество сотрудников по отделам</button>
+        </form>
+        <form method="get" style="display:inline;">
+            <input type="hidden" name="preset_query_id" value="contracts_with_clients">
+            <button type="submit" class="btn-find-style">Список договоров с клиентами</button>
+        </form>
+        <form method="get" style="display:inline;">
+            <input type="hidden" name="preset_query_id" value="estimates_for_requests">
+            <button type="submit" class="btn-find-style">Сметы по заявкам</button>
+        </form>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="sql-input-container">
+            <label for="sql_query">Введите SQL-запрос (только SELECT):</label><br>
+            <textarea id="sql_query" name="sql_query" placeholder="">{{ sql_query }}</textarea>
+        </div>
+        <div class="button-container">
+            <button type="submit" name="action" value="execute_query">Сформировать документ (Просмотр)</button>
+        </div>
+    </form>
+
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+    {% endif %}
+
+    {% if success_message %}
+        <div class="messages-container">
+            <div class="alert alert-success">
+                {{ success_message }}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if query_executed %}
+        <h2>Результаты запроса:</h2>
+        {% if result_columns %}
+            <table class="sql-result-table">
+                <thead>
+                    <tr>
+                        {% for col in result_columns %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in result_rows %}
+                        <tr>
+                            {% for cell in row %}
+                                <td>{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="button-container">
+                <form method="post" action="{% url 'generate_pdf_file' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="sql_query" value="{{ sql_query }}">
+                    <button type="submit" class="btn-download-pdf">Скачать как PDF</button>
+                </form>
+            </div>
+
+        {% else %}
+             <p>Запрос не вернул результатов.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

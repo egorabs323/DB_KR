@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Выберите таблицу{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Таблицы в базе данных</h1>
+    <ul class="model-list">
+    {% for model, model_name, verbose_name in models %}
+        <li class="model-item">
+            <a href="{% url 'model_detail' model_name=model_name %}" class="model-link">
+                {{ verbose_name|capfirst }}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

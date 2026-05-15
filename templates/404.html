@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Страница не найдена{% endblock %}
+
+{% block content %}
+    <div class="error-container-centered">
+        <h1>Ошибка 404</h1>
+        <img src="{% static 'images/404.jpg' %}" alt="Страница не найдена" class="error-image">
+        <p>Страница, которую вы ищете, не существует.</p>
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a>
+    </div>
+{% endblock %}

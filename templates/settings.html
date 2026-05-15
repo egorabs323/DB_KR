@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Настройки{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a> |
+        <a href="{% url 'miscellaneous_menu' %}">Вернуться в разное</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Настройки</h1>
+
+    <h2>Шрифт</h2>
+    <p>Выберите предпочтительный размер шрифта для интерфейса:</p>
+    <form method="post" action="{% url 'update_settings' %}">
+        {% csrf_token %}
+        <label>
+            <input type="radio" name="font_size" value="small"
+                   {% if request.session.preferred_font_size == 'small' %}checked{% endif %}>
+            Маленький
+        </label><br>
+        <label>
+            <input type="radio" name="font_size" value="normal"
+                   {% if request.session.preferred_font_size != 'small' and request.session.preferred_font_size != 'large' %}checked{% endif %}>
+            Нормальный
+        </label><br>
+        <label>
+            <input type="radio" name="font_size" value="large"
+                   {% if request.session.preferred_font_size == 'large' %}checked{% endif %}>
+            Большой
+        </label><br>
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <h2>Музыка</h2>
+    <p>Включить/выключить фоновую музыку:</p>
+    <form method="post" action="{% url 'update_settings' %}">
+        {% csrf_token %}
+        <label>
+            <input type="checkbox" name="music_enabled" value="on"
+                   {% if request.session.music_enabled %}checked{% endif %}>
+            Включить музыку
+        </label><br>
+        <button type="submit">Сохранить</button>
+    </form>
+{% endblock %}

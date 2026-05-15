@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Разное{% endblock %}
+
+{% block nav_top_left %}
+    <div class="nav-top-left">
+        <a href="{% url 'main_menu' %}">Вернуться в меню</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Разное</h1>
+
+    <ul class="misc-options-list">
+        <li class="misc-option-item">
+            <a href="{% url 'settings_page' %}" class="misc-option-link">Настройки</a>
+        </li>
+        <li class="misc-option-item">
+            <a href="{% url 'password_change' %}" class="misc-option-link">Сменить пароль</a>
+        </li>
+    </ul>
+{% endblock %}

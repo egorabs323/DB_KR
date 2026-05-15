@@ -1,0 +1,27 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мое Приложение{% endblock %}</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/3.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="{% if request.session.preferred_font_size == 'small' %}font-small{% elif request.session.preferred_font_size == 'large' %}font-large{% else %}font-normal{% endif %}">
+    <div class="container">
+        {% block nav_top_left %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div>
+
+    {% if request.session.music_enabled %}
+        <audio id="background-audio" loop autoplay>
+            <source src="{% static 'music/ANNA_ASTI_Carica.mp3' %}" type="audio/mpeg">
+            Ваш браузер не поддерживает аудио.
+        </audio>
+    {% endif %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
